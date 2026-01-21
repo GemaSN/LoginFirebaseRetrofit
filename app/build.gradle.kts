@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -46,10 +47,21 @@ android {
 
 dependencies {
     // NUEVO
+
+        //SERIALIZATION
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
+        // Kotlin serialization
+    implementation(libs.kotlinx.serialization.json)
+
+        // RETROFIT
+    implementation(libs.retrofit)
+
         // FIREBASE
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.auth)
+
         // NAVIGATION
     implementation(libs.androidx.navigation.compose)
 
@@ -59,7 +71,10 @@ dependencies {
         // LIVE DATA (VIEWMODEL)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.runtime.livedata)
+
     //
+
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -76,4 +91,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
+
 }

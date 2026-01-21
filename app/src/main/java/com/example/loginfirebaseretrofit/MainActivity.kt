@@ -4,14 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.loginfirebaseretrofit.login.ui.LoginScreen
 import com.example.loginfirebaseretrofit.login.ui.LoginViewModel
+import com.example.loginfirebaseretrofit.network.MarsApi
 import com.example.loginfirebaseretrofit.ui.theme.LoginFirebaseRetrofitTheme
 import com.google.firebase.auth.FirebaseAuth
 
@@ -19,29 +17,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var auth = FirebaseAuth.getInstance()
+        val apiService = MarsApi.retrofitService
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             LoginFirebaseRetrofitTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(LoginViewModel(), auth)
+                NavHost(navController = navController, startDestination = "login") {
+                    composable("login") {
+                        LoginScreen(LoginViewModel(), auth) {
+                            navController.navigate("home")
+                        }
+                    }
+                    composable("home") {
+                        HomeScreen(HomeViewModel(apiService), auth)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LoginFirebaseRetrofitTheme {
-        Greeting("Android")
     }
 }

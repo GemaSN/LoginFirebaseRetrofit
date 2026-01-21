@@ -53,10 +53,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.loginfirebaseretrofit.R
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel, auth: FirebaseAuth) {
+fun LoginScreen(loginViewModel: LoginViewModel, auth: FirebaseAuth, OnLoginSuccess: () -> Unit) {
     Box(
         Modifier
             .fillMaxSize()
@@ -70,7 +69,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, auth: FirebaseAuth) {
             }
         } else {
             Header(Modifier.align(Alignment.TopEnd))
-            Body(Modifier.align(Alignment.Center), loginViewModel, auth)
+            Body(Modifier.align(Alignment.Center), loginViewModel, auth){ OnLoginSuccess() }
             Footer(Modifier.align(Alignment.BottomCenter))
         }
     }
@@ -112,7 +111,13 @@ fun Signup() {
 }
 
 @Composable
-fun Body(modifier: Modifier, loginViewModel: LoginViewModel, auth: FirebaseAuth) {
+fun Body(
+    modifier: Modifier,
+    loginViewModel: LoginViewModel,
+    auth: FirebaseAuth,
+    OnLoginSuccess: () -> Unit,
+
+    ) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val chkState by loginViewModel.chkState.observeAsState(false)
@@ -149,7 +154,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel, auth: FirebaseAuth)
             LoginButton(Modifier.weight(1f), isLoginEnable) {
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) { // LOGIN OK
-                        Toast.makeText(context, "Login OK", Toast.LENGTH_SHORT).show()
+                        OnLoginSuccess()
                     } else { // LOGIN NOK
                         Toast.makeText(context, "Login NOK", Toast.LENGTH_SHORT).show()
                     }
