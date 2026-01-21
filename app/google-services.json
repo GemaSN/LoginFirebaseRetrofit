@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "108663751878",
+    "project_id": "fir-jaisormar",
+    "storage_bucket": "fir-jaisormar.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108663751878:android:3e0d3395677277387ec3c7",
+        "android_client_info": {
+          "package_name": "com.example.loginfirebaseretrofit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8K5f4IUtwfueJBDwqi4MC6xQIMxWjBNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
