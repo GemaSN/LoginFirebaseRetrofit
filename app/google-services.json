@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "108663751878",
-    "project_id": "fir-jaisormar",
-    "storage_bucket": "fir-jaisormar.firebasestorage.app"
+    "project_number": "503054487180",
+    "project_id": "movilesapp-51c26",
+    "storage_bucket": "movilesapp-51c26.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:108663751878:android:3e0d3395677277387ec3c7",
+        "mobilesdk_app_id": "1:503054487180:android:b3381b08d18c912f8ef5a9",
         "android_client_info": {
           "package_name": "com.example.loginfirebaseretrofit"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD8K5f4IUtwfueJBDwqi4MC6xQIMxWjBNI"
+          "current_key": "AIzaSyDOeJXQuss6Q-nesRsQZEaXJGTZWpyDL08"
         }
       ],
       "services": {
