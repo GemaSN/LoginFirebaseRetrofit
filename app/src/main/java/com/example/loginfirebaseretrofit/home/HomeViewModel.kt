@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loginfirebaseretrofit.network.MarsApiService
+import com.example.loginfirebaseretrofit.network.MarsPhoto
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -25,4 +26,10 @@ class HomeViewModel(private val apiService: MarsApiService): ViewModel() {
             }
         }
     }
+}
+
+sealed interface PhotosUiState {
+    data class Success(val photos: List<MarsPhoto>) : PhotosUiState
+    object Error : PhotosUiState
+    object Loading : PhotosUiState
 }
