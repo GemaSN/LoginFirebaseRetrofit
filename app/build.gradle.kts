@@ -48,6 +48,9 @@ android {
 dependencies {
     // NUEVO
 
+        // COIL --> para MarsPhotoCard, imagenes desde URL
+    implementation(libs.coil.compose)
+
         //SERIALIZATION
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.okhttp)

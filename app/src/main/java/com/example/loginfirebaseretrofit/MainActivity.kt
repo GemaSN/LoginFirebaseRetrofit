@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.loginfirebaseretrofit.home.HomeScreen
 import com.example.loginfirebaseretrofit.home.HomeViewModel
 import com.example.loginfirebaseretrofit.login.ui.LoginScreen
 import com.example.loginfirebaseretrofit.login.ui.LoginViewModel
