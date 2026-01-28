@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             LoginFirebaseRetrofitTheme {
-                NavHost(navController = navController, startDestination = "login") {
+                NavHost(navController = navController, startDestination = "home") {
                     composable("login") {
                         LoginScreen(LoginViewModel(), auth) {
                             navController.navigate("home")

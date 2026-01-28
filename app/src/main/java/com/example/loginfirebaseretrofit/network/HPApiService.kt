@@ -21,6 +21,7 @@ interface HPApiService {
     @GET("api/characters") // Esto es como el /photos de una URL. EJEMPLO --> https://android-kotlin-fun-mars-server.appspot.com/photos
     suspend fun getCharacters():List<HPChar> // Fucion suspendida ya que accedo a una fuente externa
 }
+
 object HPApi {
     val retrofitService : HPApiService by lazy {
         retrofit.create(HPApiService::class.java) // Hasta que no pongo esto no se crea la instancia del build

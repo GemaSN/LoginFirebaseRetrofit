@@ -26,7 +26,8 @@ data class HPChar(
     @SerialName(value = "alternate_actors")
     val alternateActors: List<String>,
     val alive: Boolean,
-    val image: String
+    val image: String,
+    val wandImage: String
 )
 
 @Serializable
