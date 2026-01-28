@@ -1,5 +1,7 @@
 package com.example.loginfirebaseretrofit.home
 
+import android.icu.lang.UCharacter
+import android.text.AndroidCharacter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.example.loginfirebaseretrofit.R
-import com.example.loginfirebaseretrofit.network.MarsPhoto
+import com.example.loginfirebaseretrofit.network.HPChar
 import com.google.firebase.auth.FirebaseAuth
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -39,11 +41,11 @@ fun HomeScreen(viewModel: HomeViewModel, auth: FirebaseAuth, modifier: Modifier 
         modifier = Modifier.fillMaxSize().padding(top = 20.dp),
         topBar = { HomeTopBar(viewModel, auth) },
         content = {
-            when (val photosUiState = viewModel.photosUiState) {
-                is PhotosUiState.Success -> SuccessContent(modifier = modifier.fillMaxSize().padding(it),
+            when (val photosUiState = viewModel.hpCharsUiState) {
+                is HPCharsUiState.Success -> SuccessContent(modifier = modifier.fillMaxSize().padding(it),
                     photosUiState.photos)
-                is PhotosUiState.Error -> ErrorContent(modifier = modifier.fillMaxSize().padding(it))
-                is PhotosUiState.Loading -> LoadingContent(modifier = modifier.fillMaxSize().padding(it))
+                is HPCharsUiState.Error -> ErrorContent(modifier = modifier.fillMaxSize().padding(it))
+                is HPCharsUiState.Loading -> LoadingContent(modifier = modifier.fillMaxSize().padding(it))
             }
         }
     )
@@ -87,27 +89,27 @@ fun LoadingContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SuccessContent(modifier: Modifier = Modifier, photos: List<MarsPhoto>) {
+fun SuccessContent(modifier: Modifier = Modifier, characters: List<HPChar>) {
     LazyColumn(modifier = modifier) {
-        item() { Text("Success: ${photos.size} Mars photos retrieved") }
-        items(photos.size) { MarsPhotoCard(photos[it]) }
+        item() { Text("Success: ${characters.size} Mars photos retrieved") }
+        items(characters.size) { MarsPhotoCard(characters[it]) }
     }
 }
 
 @Composable
-fun MarsPhotoCard(photo: MarsPhoto) {
+fun MarsPhotoCard(char: HPChar) {
     Card(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
         Column(modifier = Modifier.padding(8.dp).fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally) {
             AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                .data(photo.imgSrc)
+                .data(char.image)
                 .crossfade(true)
                 .build(),
                 contentDescription = "Mars photo",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
             )
-            Text("ID: ${photo.id}", fontStyle = FontStyle.Italic)
+            Text("ID: ${char.id}", fontStyle = FontStyle.Italic)
         }
     }
 }
