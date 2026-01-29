@@ -11,7 +11,7 @@ import com.example.loginfirebaseretrofit.home.HomeScreen
 import com.example.loginfirebaseretrofit.home.HomeViewModel
 import com.example.loginfirebaseretrofit.login.ui.LoginScreen
 import com.example.loginfirebaseretrofit.login.ui.LoginViewModel
-import com.example.loginfirebaseretrofit.network.HPApi
+import com.example.loginfirebaseretrofit.network.LSApi
 import com.example.loginfirebaseretrofit.ui.theme.LoginFirebaseRetrofitTheme
 import com.google.firebase.auth.FirebaseAuth
 
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var auth = FirebaseAuth.getInstance()
-        val apiService = HPApi.retrofitService
+        val apiService = LSApi.retrofitService
 
         enableEdgeToEdge()
         setContent {

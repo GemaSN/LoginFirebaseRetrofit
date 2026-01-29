@@ -36,7 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.example.loginfirebaseretrofit.R
-import com.example.loginfirebaseretrofit.network.HPChar
+import com.example.loginfirebaseretrofit.network.LSChar
 import com.google.firebase.auth.FirebaseAuth
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -47,11 +47,11 @@ fun HomeScreen(viewModel: HomeViewModel, auth: FirebaseAuth, modifier: Modifier 
         modifier = Modifier.fillMaxSize().padding(top = 20.dp),
         topBar = { HomeTopBar(viewModel, auth) },
         content = {
-            when (val photosUiState = viewModel.hpCharsUiState) {
-                is HPCharsUiState.Success -> SuccessContent(modifier = modifier.fillMaxSize().padding(it),
+            when (val photosUiState = viewModel.lsCharsUiState) {
+                is LSCharsUiState.Success -> SuccessContent(modifier = modifier.fillMaxSize().padding(it),
                     photosUiState.photos)
-                is HPCharsUiState.Error -> ErrorContent(modifier = modifier.fillMaxSize().padding(it))
-                is HPCharsUiState.Loading -> LoadingContent(modifier = modifier.fillMaxSize().padding(it))
+                is LSCharsUiState.Error -> ErrorContent(modifier = modifier.fillMaxSize().padding(it))
+                is LSCharsUiState.Loading -> LoadingContent(modifier = modifier.fillMaxSize().padding(it))
             }
         }
     )
@@ -95,15 +95,15 @@ fun LoadingContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SuccessContent(modifier: Modifier = Modifier, characters: List<HPChar>) {
-    LazyColumn(modifier = modifier) {
-        item() { Text("Success: ${characters.size} Mars photos retrieved") }
+fun SuccessContent(modifier: Modifier = Modifier, characters: List<LSChar>) {
+    LazyColumn(modifier = modifier){
+        item() { Text("Success: ${characters.size} API info retrieved") }
         items(characters.size) { MarsPhotoCard(characters[it]) }
     }
 }
 
 @Composable
-fun MarsPhotoCard(char: HPChar) {
+fun MarsPhotoCard(char: LSChar) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -116,9 +116,9 @@ fun MarsPhotoCard(char: HPChar) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            AsyncImage(
+           /* AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(char.image)
+                    .data(char.first_appearance_ep.image_path)
                     .crossfade(true)
                     .build(),
                 contentDescription = "Character image",
@@ -126,7 +126,7 @@ fun MarsPhotoCard(char: HPChar) {
                 modifier = Modifier
                     .size(100.dp)
                     .clip(RoundedCornerShape(8.dp))
-            )
+            )*/
 
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -136,12 +136,12 @@ fun MarsPhotoCard(char: HPChar) {
                     fontStyle = FontStyle.Italic
                 )
                 Text(
-                    text = "Da: ${char.dateOfBirth}",
+                    text = "Years: ${char.age}",
                     fontStyle = FontStyle.Italic
                 )
 
                 Text(
-                    text = "Name: ${char.house}",
+                    text = "Ocupación: ${char.occupation}",
                     fontStyle = FontStyle.Italic
                 )
             }
@@ -155,9 +155,8 @@ fun MarsPhotoCard(char: HPChar) {
         ){
             Column {
                 Text(
-                    text = "Wand: ${char.wand.core} | ${char.wand.length} | ${char.wand.length}",
-                    fontStyle = FontStyle.Italic,
-
+                    text = "Phrases: ${char.phrases}",
+                    fontStyle = FontStyle.Italic
                 )
             }
         }

@@ -5,31 +5,31 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.loginfirebaseretrofit.network.HPApiService
-import com.example.loginfirebaseretrofit.network.HPChar
+import com.example.loginfirebaseretrofit.network.LSApiService
+import com.example.loginfirebaseretrofit.network.LSChar
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 
-class HomeViewModel(private val apiService: HPApiService): ViewModel() {
-    var hpCharsUiState: HPCharsUiState by mutableStateOf(HPCharsUiState.Loading)
+class HomeViewModel(private val apiService: LSApiService): ViewModel() {
+    var lsCharsUiState: LSCharsUiState by mutableStateOf(LSCharsUiState.Loading)
 
     init { getPhotos() }
 
     fun getPhotos() {
-        hpCharsUiState = HPCharsUiState.Loading
+        lsCharsUiState = LSCharsUiState.Loading
         viewModelScope.launch {
-            hpCharsUiState = try {
-                HPCharsUiState.Success(apiService.getCharacters())
+            lsCharsUiState = try {
+                LSCharsUiState.Success(apiService.getCharacters().results)
             } catch (ex: IOException) {
-                HPCharsUiState.Error
+                LSCharsUiState.Error
             }
         }
     }
 }
 
-sealed interface HPCharsUiState {
-    data class Success(val photos: List<HPChar>) : HPCharsUiState
-    object Error : HPCharsUiState
-    object Loading : HPCharsUiState
+sealed interface LSCharsUiState {
+    data class Success(val photos: List<LSChar>) : LSCharsUiState
+    object Error : LSCharsUiState
+    object Loading : LSCharsUiState
 }
