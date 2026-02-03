@@ -1,5 +1,6 @@
 package com.example.loginfirebaseretrofit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,7 @@ import com.example.loginfirebaseretrofit.ui.theme.LoginFirebaseRetrofitTheme
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("ViewModelConstructorInComposable")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var auth = FirebaseAuth.getInstance()
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             LoginFirebaseRetrofitTheme {
-                NavHost(navController = navController, startDestination = "login") {
+                NavHost(navController = navController, startDestination = "home") {
                     composable("login") {
                         LoginScreen(LoginViewModel(), auth) {
                             navController.navigate("home")

@@ -75,41 +75,26 @@ fun LoginScreen(loginViewModel: LoginViewModel, auth: FirebaseAuth, OnLoginSucce
     }
 }
 
+// ================================================
+//                      HEADER
+// ================================================
+/**
+ * ZONA DEL ICONO DE LA X
+ * Sirve para crashear la app y que así se cierre
+ */
 @Composable
-fun Footer(modifier: Modifier) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Divider(
-            Modifier
-                .background(Color(0xFF9F9F9F))
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        Signup()
-    }
+fun Header(modifier: Modifier) {
+    Icon(imageVector = Icons.Default.Close,
+        contentDescription = "Close APP",
+        modifier = modifier.clickable {
+            throw RuntimeException("Test Crash") // Force a crash
+        }.size(30.dp))
 }
 
-@Composable
-fun Signup() {
-    Row(
-        Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Don't have an account?",
-            fontSize = 12.sp,
-            color = Color(0xFFB5B5B5)
-        )
-        Text(
-            text = "Sign up",
-            modifier = Modifier.padding(horizontal = 8.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF4EA8E9)
-        )
-    }
-}
 
+// ================================================
+//                      BODY
+// ================================================
 @Composable
 fun Body(
     modifier: Modifier,
@@ -127,6 +112,8 @@ fun Body(
     val context = LocalContext.current
 
     Column(modifier = modifier) {
+        NameApp(modifier = Modifier.align(Alignment.CenterHorizontally))
+        Spacer(modifier = Modifier.size(16.dp))
         ImageLogo(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
         Email(email) {
@@ -159,116 +146,69 @@ fun Body(
                         Toast.makeText(context, "Login NOK", Toast.LENGTH_SHORT).show()
                     }
                 }
-                }
             }
         }
-        Spacer(modifier = Modifier.size(16.dp))
-        LoginDivider()
-        Spacer(modifier = Modifier.size(32.dp))
-        SocialLogin()
     }
-
-
-@Composable
-fun RegisterButton(
-    modifier: Modifier,
-    loginEnable: Boolean,
-    onRegisterClick: () -> Unit
-) {
-    Button(
-        onClick = { onRegisterClick() },
-        enabled = loginEnable,
-        modifier = modifier
-    ) { Text(text = "Register") }
+    Spacer(modifier = Modifier.size(16.dp))
 }
 
+/** --------------------
+ * NOMBRE APP
+ * ---------------------
+ */
 @Composable
-fun RememberMe(chkState: Boolean, onToggleCheck: (Boolean) -> Unit) {
-    Row(modifier = Modifier.border(BorderStroke(2.dp, Color.Blue))) {
-        Checkbox(checked = chkState,
-            onCheckedChange = { onToggleCheck(it) })
-        Text("Remember me: $chkState")
-    }
-}
-
-@Composable
-fun SocialLogin() {
-    Row(
-        modifier = Modifier
-            //.border(border = BorderStroke(width = 5.dp, Color.Red))
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.fb),
-            contentDescription = "LogoFB",
-            modifier = Modifier.size(16.dp)
-        )
+fun NameApp( modifier: Modifier) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         Text(
-            text = "Continue as David",
-            fontSize = 14.sp,
+            text = "MI APP ANIME",
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 8.dp),
-            color = Color(0xFF4EA8E9)
-        )
-    }
+            color = Color(0xFF932727)
+        ) }
 }
 
+/** -----------------------
+ * IMAGEN DE LA PANTALLA
+ * ------------------------
+ */
 @Composable
-fun LoginDivider() {
-    Row(
-        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-    ) {
-        Divider(
-            Modifier
-                .background(Color(0xFF9F9F9F))
-                .height(1.dp)
-                .weight(1f)
-        )
-        Text(
-            text = "OR",
-            modifier = Modifier.padding(horizontal = 6.dp),
-            fontWeight = FontWeight.Bold,
-            fontSize = 12.sp,
-            color = Color(0xFFB5B5B5)
-        )
-        Divider(
-            Modifier
-                .background(Color(0xFF9F9F9F))
-                .height(1.dp)
-                .weight(1f)
-        )
-    }
-}
-
-@Composable
-fun LoginButton(modifier: Modifier, loginEnable: Boolean, onLoginClick: () -> Unit) {
-    Button(
-        onClick = { onLoginClick() },
-        enabled = loginEnable,
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF4EA8E9),
-            disabledContainerColor = Color(0xFF78C8F9),
-            contentColor = Color.White,
-            disabledContentColor = Color.White
-        ),
-        shape = RoundedCornerShape(10.dp)
-    ) { Text(text = "Log In") }
-}
-
-@Composable
-fun ForgotPassword(modifier: Modifier) {
-    Text(
-        "Forgot password?",
-        fontSize = 12.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xFF4EA8E9),
+fun ImageLogo(modifier: Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.imagen_anime_portada),
+        contentDescription = "Logo",
         modifier = modifier
     )
 }
 
+/** ---------------------
+ * CAMPO EMAIL
+ * ----------------------
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Email(email: String, onTextChanged: (String) -> Unit) {
+    TextField(
+        value = email,
+        onValueChange = { onTextChanged(it) },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = "Email") },
+        maxLines = 1,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = Color(0xFFB2B2B2),
+            focusedContainerColor = Color(0xFFFAFAFA),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        )
+    )
+}
+
+/** ---------------------
+ * CAMPO PASSWORD
+ * ----------------------
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Password(password: String, onTextChanged: (String) -> Unit) {
@@ -305,42 +245,115 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+/** ---------------------
+ * CAMPO FORGOT PASSWORD
+ * ----------------------
+ */
 @Composable
-fun Email(email: String, onTextChanged: (String) -> Unit) {
-    TextField(
-        value = email,
-        onValueChange = { onTextChanged(it) },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = "Email") },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = Color(0xFFB2B2B2),
-            focusedContainerColor = Color(0xFFFAFAFA),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        )
+fun ForgotPassword(modifier: Modifier) {
+    Text(
+        "Forgot password?",
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color(0xFFAB4747),
+        modifier = modifier,
     )
 }
 
+/** ---------------------
+ * CAMPO REMEMBER ME
+ * ----------------------
+ */
 @Composable
-fun ImageLogo(modifier: Modifier) {
-    Image(
-        painter = painterResource(id = R.drawable.insta),
-        contentDescription = "Logo",
+fun RememberMe(chkState: Boolean, onToggleCheck: (Boolean) -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(checked = chkState,
+            onCheckedChange = { onToggleCheck(it) })
+        Text("Remember me")
+    }
+}
+
+/** ---------------------
+ * BOTÓN REGISTER
+ * ----------------------
+ */
+@Composable
+fun RegisterButton(
+    modifier: Modifier,
+    loginEnable: Boolean,
+    onRegisterClick: () -> Unit
+) {
+    Button(
+        onClick = { onRegisterClick() },
+        enabled = loginEnable,
+        modifier = modifier.padding(2.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF6C2121),
+            disabledContainerColor = Color(0xFFEA9494),
+            contentColor = Color.White,
+            disabledContentColor = Color.White
+        ),
+        shape = RoundedCornerShape(10.dp)
+    ) { Text(text = "Register") }
+}
+
+/** ---------------------
+ * BOTÓN LOGIN
+ * ----------------------
+ */
+@Composable
+fun LoginButton(modifier: Modifier, loginEnable: Boolean, onLoginClick: () -> Unit) {
+    Button(
+        onClick = { onLoginClick() },
+        enabled = loginEnable,
         modifier = modifier
-    )
+            .padding(2.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFFAB4747),
+            disabledContainerColor = Color(0xFFEA9494),
+            contentColor = Color.White,
+            disabledContentColor = Color.White
+        ),
+        shape = RoundedCornerShape(10.dp)
+    ) { Text(text = "Log In") }
+}
+
+
+// ================================================
+//                      FOOTER
+// ================================================
+
+@Composable
+fun Footer(modifier: Modifier) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Divider(
+            Modifier
+                .background(Color(0xFF9F9F9F))
+                .height(1.dp)
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        Signup()
+    }
 }
 
 @Composable
-fun Header(modifier: Modifier) {
-    //val activity = LocalContext.current
-    Icon(imageVector = Icons.Default.Close,
-        contentDescription = "Close APP",
-        modifier = modifier.clickable {
-//activity.finish()
-            throw RuntimeException("Test Crash") // Force a crash
-        }.size(50.dp))
+fun Signup() {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Don't have an account?",
+            fontSize = 12.sp,
+            color = Color(0xFFB5B5B5)
+        )
+        Text(
+            text = "Sign up",
+            modifier = Modifier.padding(horizontal = 8.dp),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFFAB4747)
+        )
+    }
 }

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "503054487180",
-    "project_id": "movilesapp-51c26",
-    "storage_bucket": "movilesapp-51c26.firebasestorage.app"
+    "project_number": "962703411620",
+    "project_id": "appanime-f239c",
+    "storage_bucket": "appanime-f239c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:503054487180:android:b3381b08d18c912f8ef5a9",
+        "mobilesdk_app_id": "1:962703411620:android:47dbf11aedd93a522d1931",
         "android_client_info": {
           "package_name": "com.example.loginfirebaseretrofit"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDOeJXQuss6Q-nesRsQZEaXJGTZWpyDL08"
+          "current_key": "AIzaSyCyjWaIYBDKuN5gMXIpMwgPBgZv0FpPq3Y"
         }
       ],
       "services": {

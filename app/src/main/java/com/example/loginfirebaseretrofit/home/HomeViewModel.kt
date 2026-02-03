@@ -5,31 +5,46 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.loginfirebaseretrofit.network.MarsApiService
-import com.example.loginfirebaseretrofit.network.MarsPhoto
+import com.example.loginfirebaseretrofit.network.AnimeApiService
+import com.example.loginfirebaseretrofit.network.AnimeInfo
+import com.example.loginfirebaseretrofit.network.AnimeData
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-
-class HomeViewModel(private val apiService: MarsApiService): ViewModel() {
-    var photosUiState: PhotosUiState by mutableStateOf(PhotosUiState.Loading)
+class HomeViewModel(private val apiService: AnimeApiService): ViewModel() {
+    var animeUiState: AnimeUiState by mutableStateOf(AnimeUiState.Loading)
 
     init { getPhotos() }
 
     fun getPhotos() {
-        photosUiState = PhotosUiState.Loading
+        animeUiState = AnimeUiState.Loading
         viewModelScope.launch {
-            photosUiState = try {
-                PhotosUiState.Success(apiService.getPhotos())
+            animeUiState = try {
+                val response = apiService.getAnimes()
+                // Convertir de AnimeData a AnimeInfo
+                val animeList = response.data.map { it.toAnimeInfo() }
+                AnimeUiState.Success(animeList)
             } catch (ex: IOException) {
-                PhotosUiState.Error
+                AnimeUiState.Error
+            } catch (ex: Exception) {
+                AnimeUiState.Error
             }
         }
     }
 }
 
-sealed interface PhotosUiState {
-    data class Success(val photos: List<MarsPhoto>) : PhotosUiState
-    object Error : PhotosUiState
-    object Loading : PhotosUiState
+// Función de extensión para convertir AnimeData a AnimeInfo
+private fun AnimeData.toAnimeInfo() = AnimeInfo(
+    mal_id = this.mal_id.toString(),
+    imgSrc = this.images.jpg.image_url,
+    title = this.title,
+    episodes = this.episodes ?: 0,
+    rating = this.rating ?: "N/A",
+    score = this.score?.toFloat() ?: 0f
+)
+
+sealed interface AnimeUiState {
+    data class Success(val anime: List<AnimeInfo>) : AnimeUiState
+    object Error : AnimeUiState
+    object Loading : AnimeUiState
 }

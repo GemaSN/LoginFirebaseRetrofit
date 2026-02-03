@@ -4,11 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
@@ -22,13 +27,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.example.loginfirebaseretrofit.R
-import com.example.loginfirebaseretrofit.network.MarsPhoto
+import com.example.loginfirebaseretrofit.network.AnimeInfo
 import com.google.firebase.auth.FirebaseAuth
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -39,11 +45,11 @@ fun HomeScreen(viewModel: HomeViewModel, auth: FirebaseAuth, modifier: Modifier 
         modifier = Modifier.fillMaxSize().padding(top = 20.dp),
         topBar = { HomeTopBar(viewModel, auth) },
         content = {
-            when (val photosUiState = viewModel.photosUiState) {
-                is PhotosUiState.Success -> SuccessContent(modifier = modifier.fillMaxSize().padding(it),
-                    photosUiState.photos)
-                is PhotosUiState.Error -> ErrorContent(modifier = modifier.fillMaxSize().padding(it))
-                is PhotosUiState.Loading -> LoadingContent(modifier = modifier.fillMaxSize().padding(it))
+            when (val animeUiState = viewModel.animeUiState) {
+                is AnimeUiState.Success -> SuccessContent(modifier = modifier.fillMaxSize().padding(it),
+                    animeUiState.anime)
+                is AnimeUiState.Error -> ErrorContent(modifier = modifier.fillMaxSize().padding(it))
+                is AnimeUiState.Loading -> LoadingContent(modifier = modifier.fillMaxSize().padding(it))
             }
         }
     )
@@ -87,27 +93,54 @@ fun LoadingContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SuccessContent(modifier: Modifier = Modifier, photos: List<MarsPhoto>) {
+fun SuccessContent(modifier: Modifier = Modifier, photos: List<AnimeInfo>) {
     LazyColumn(modifier = modifier) {
-        item() { Text("Success: ${photos.size} Mars photos retrieved") }
-        items(photos.size) { MarsPhotoCard(photos[it]) }
+        item() { Text("Success: ${photos.size} Anime card retrieved") }
+        items(photos.size) { AnimeCard(photos[it]) }
     }
 }
 
 @Composable
-fun MarsPhotoCard(photo: MarsPhoto) {
-    Card(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
-        Column(modifier = Modifier.padding(8.dp).fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally) {
+fun AnimeCard(anime: AnimeInfo) {
+    Card(modifier = Modifier
+        .padding(8.dp)
+        .fillMaxWidth()
+    ){
+        Row(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ){
             AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                .data(photo.imgSrc)
+                .data(anime.imgSrc)
                 .crossfade(true)
                 .build(),
-                contentDescription = "Mars photo",
+                contentDescription = "Anime photos",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
             )
-            Text("ID: ${photo.id}", fontStyle = FontStyle.Italic)
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Column {
+                Text(
+                    text = "Name: ${anime.title}",
+                    fontStyle = FontStyle.Italic
+                )
+                Text(
+                    text = "Episodes: ${anime.episodes}",
+                    fontStyle = FontStyle.Italic
+                )
+                Text(
+                    text = "Rating: ${anime.rating}",
+                    fontStyle = FontStyle.Italic
+                )
+                Text(
+                    text = "Score: ${anime.score}",
+                    fontStyle = FontStyle.Italic
+                )
+            }
         }
     }
 }

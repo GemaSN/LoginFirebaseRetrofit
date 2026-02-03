@@ -22,8 +22,12 @@ class LoginViewModel() : ViewModel() {
         _chkState.value = !_chkState.value
     }
 
+    /**
+     * La contraseña debe tener una longitud mínima de 4 caracteres
+     * y el correo debe tener formato "a@a.a"
+     */
     private fun validCredentials() {
-        _isLoginEnabled.value = _password.value.length > 7 &&
+        _isLoginEnabled.value = _password.value.length > 3 &&
                 Patterns.EMAIL_ADDRESS.matcher(_email.value).matches()
     }
 
