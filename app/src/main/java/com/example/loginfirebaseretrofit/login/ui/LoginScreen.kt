@@ -123,10 +123,7 @@ fun Body(
         Password(password) {
             loginViewModel.onLoginChange(email, it)
         }
-        Spacer(modifier = Modifier.size(8.dp))
-        ForgotPassword(Modifier.align(Alignment.End))
-        Spacer(modifier = Modifier.size(16.dp)) // new
-        RememberMe(chkState) { loginViewModel.toggleCheck() } // new
+
         Spacer(modifier = Modifier.size(16.dp))
         Row() {
             RegisterButton(Modifier.weight(1f), isLoginEnable) {
@@ -243,34 +240,6 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
             PasswordVisualTransformation()
         }
     )
-}
-
-/** ---------------------
- * CAMPO FORGOT PASSWORD
- * ----------------------
- */
-@Composable
-fun ForgotPassword(modifier: Modifier) {
-    Text(
-        "Forgot password?",
-        fontSize = 12.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xFFAB4747),
-        modifier = modifier,
-    )
-}
-
-/** ---------------------
- * CAMPO REMEMBER ME
- * ----------------------
- */
-@Composable
-fun RememberMe(chkState: Boolean, onToggleCheck: (Boolean) -> Unit) {
-    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checked = chkState,
-            onCheckedChange = { onToggleCheck(it) })
-        Text("Remember me")
-    }
 }
 
 /** ---------------------
